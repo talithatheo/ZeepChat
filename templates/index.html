@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ZeepChat</title>
+</head>
+<body>
+    <h1>Welcome to ZeepChat</h1>
+    <form id="messageForm">
+        <textarea id="message" placeholder="Type your message here"></textarea><br>
+        <input type="text" id="recipients" placeholder="Recipients (comma separated or 'all')"><br>
+        <button type="button" onclick="sendMessage()">Send Message</button>
+    </form>
+    <br>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput"><br>
+        <button type="button" onclick="uploadFile()">Upload File</button>
+    </form>
+    <script>
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            const recipients = document.getElementById('recipients').value;
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message, recipients: recipients.split(',') }),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+        }
+
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+        }
+    </script>
+</body>
+</html>
