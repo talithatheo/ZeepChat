@@ -72,5 +72,5 @@ def uploaded_file(filename):
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', 11008))  # Ubah nilai default port menjadi 11008
     app.run(host='0.0.0.0', port=port, threaded=True)
